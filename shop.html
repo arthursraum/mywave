@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MyWave Shop – Official Merch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* SHOP PAGE – OCEAN / SURF FEEL */
+    body {
+      background: #f4fbff;
+      color: #043049;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .shop-page {
+      padding: 100px 20px 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .shop-header {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .shop-header h1 {
+      font-size: clamp(32px, 4vw, 48px);
+      text-transform: uppercase;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      color: #025b91;
+      margin-bottom: 10px;
+    }
+
+    .shop-header p {
+      max-width: 700px;
+      margin: 0 auto;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    /* SUBMENU FILTER */
+    .shop-subnav {
+      margin: 24px auto 24px;
+      display: inline-flex;
+      gap: 10px;
+      padding: 6px;
+      border-radius: 999px;
+      background: rgba(2, 91, 145, 0.06);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .shop-subnav button {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: #025b91;
+      opacity: 0.75;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .shop-subnav button:hover,
+    .shop-subnav button:focus {
+      background: #ffffff;
+      opacity: 1;
+    }
+
+    .shop-subnav button.active {
+      background: #ffffff;
+      opacity: 1;
+      font-weight: 600;
+    }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-top: 12px;
+    }
+
+    .product-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 18px;
+      border: 1px solid rgba(2, 91, 145, 0.12);
+      box-shadow: 0 10px 24px rgba(0, 123, 167, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .product-card img {
+      width: 100%;
+      border-radius: 14px;
+      object-fit: cover;
+      max-height: 220px;
+    }
+
+    /* IMAGE SLIDER */
+    .product-image-slider {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .product-image-slider .slider-track img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 14px;
+      display: none;
+    }
+
+    .product-image-slider .slider-track img.active {
+      display: block;
+    }
+
+    .slider-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+      background: rgba(4, 48, 73, 0.6);
+      color: #ffffff;
+    }
+
+    .slider-arrow.left {
+      left: 8px;
+    }
+
+    .slider-arrow.right {
+      right: 8px;
+    }
+
+    .product-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #0287c4;
+      margin-top: 3px;
+    }
+
+    .product-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #043049;
+    }
+
+    .product-text {
+      font-size: 14px;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+
+    .product-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+      font-size: 13px;
+    }
+
+    .product-controls label {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1 1 110px;
+    }
+
+    .product-controls input {
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(4, 48, 73, 0.25);
+      font-size: 13px;
+    }
+
+    .product-footer {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .product-price {
+      font-size: 13px;
+      font-weight: 500;
+      color: #025b91;
+    }
+
+    .product-price span {
+      font-weight: 700;
+    }
+
+    .btn-buy {
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: #02b3a6;
+      color: white;
+      border: none;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-buy:hover {
+      opacity: 0.95;
+    }
+
+    /* ORDER FORM SECTION */
+    .order-form {
+      margin-top: 48px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 20px 18px 24px;
+      border: 1px solid rgba(2, 91, 145, 0.16);
+      box-shadow: 0 10px 24px rgba(0, 123, 167, 0.08);
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .order-form h2 {
+      font-size: 20px;
+      margin-bottom: 6px;
+      color: #025b91;
+    }
+
+    .order-form p {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 16px;
+    }
+
+    .order-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .order-grid-full {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .order-form label {
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .order-form input,
+    .order-form textarea,
+    .order-form select {
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(4, 48, 73, 0.25);
+      font-size: 13px;
+      resize: vertical;
+    }
+
+    .order-form textarea {
+      min-height: 70px;
+    }
+
+    .order-summary {
+      font-size: 13px;
+      opacity: 0.9;
+      margin-bottom: 12px;
+    }
+
+    .btn-submit-order {
+      padding: 9px 22px;
+      border-radius: 999px;
+      background: #025b91;
+      color: #ffffff;
+      border: none;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+    }
+
+    .btn-submit-order:hover {
+      opacity: 0.95;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* NAV active state */
+    .nav-links a.active {
+      font-weight: 700;
+      opacity: 1 !important;
+    }
+
+    @media (max-width: 700px) {
+      .order-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .shop-page {
+        padding-top: 90px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER (same as main site) -->
+  <header>
+    <div class="container nav-bar">
+      <div class="brand">
+        <div class="brand-icon">
+          <img src="f0352ef4-000f-4b95-aba9-62c0fb2eb841.jpeg" alt="MyWave logo">
+        </div>
+
+        <div>
+          <div class="brand-text-title">MyWave</div>
+          <div class="brand-text-sub">
+            Youth movement – to promote and support outdoor water activities
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+  <a href="index.html#story">Our story</a>
+  <a href="index.html#programs">Programs</a>
+  <a href="index.html#blog">Blog</a>
+  <a href="index.html#support">Support</a>
+  <a href="shop.html" class="active">Shop</a>
+</nav>
+
+   </div>
+  </header>
+
+  <div class="shop-page">
+
+    <!-- SHOP INTRO -->
+    <div class="shop-header">
+      <h1>MyWave Shop</h1>
+      <p>
+        Wear the message and become a visible part of the MyWave community.
+        All profits from these items go back into the project – supporting youth surf days,
+        camps and water-sport programs. Prices are donation-based with a clear minimum.
+      </p>
+
+      <!-- FILTER SUBMENU -->
+      <div class="shop-subnav">
+        <button type="button" class="active" data-filter="all">All</button>
+        <button type="button" data-filter="clothing">Clothing</button>
+        <button type="button" data-filter="headwear">Headwear</button>
+        <button type="button" data-filter="accessories">Accessories</button>
+      </div>
+    </div>
+
+    <!-- ALL PRODUCTS TOGETHER -->
+    <div class="shop-grid">
+
+      <!-- ADULT T-SHIRT (CLOTHING) -->
+      <div class="product-card" data-category="clothing">
+
+        <div class="product-image-slider">
+          <button class="slider-arrow left" type="button">‹</button>
+          <div class="slider-track">
+            <!-- back and front images for the first T-shirt -->
+            <img src="ChatGPT Image Nov 27, 2025, 12_29_39 PM.png" alt="Adult T-shirt back" class="active">
+            <img src="ChatGPT Image Nov 27, 2025, 12_31_19 PM.png" alt="Adult T-shirt front">
+          </div>
+          <button class="slider-arrow right" type="button">›</button>
+        </div>
+
+        <div class="product-tag">T-shirt · Adults</div>
+        <div class="product-title">Surf the waves, not the internet</div>
+        <p class="product-text">Unisex tee with the core MyWave message.</p>
+
+        <div class="product-controls">
+          <label>
+            Quantity
+            <input type="number" class="input-qty" min="1" value="1">
+          </label>
+          <label>
+            Your donation / item (min €25)
+            <input type="number" class="input-price" min="25" step="1" value="25">
+          </label>
+        </div>
+
+        <div class="product-footer">
+          <div class="product-price">
+            Min. donation per item: <span>€25</span>
+          </div>
+          <button class="btn-buy" data-min="25">Buy</button>
+        </div>
+      </div>
+
+      <!-- KIDS T-SHIRT (CLOTHING) -->
+      <div class="product-card" data-category="clothing">
+
+        <div class="product-image-slider">
+          <button class="slider-arrow left" type="button">‹</button>
+          <div class="slider-track">
+            <img src="Surf the Waves T-shirt Design.png" alt="Kids T-shirt front" class="active">
+            <img src="dfe23e13-ffed-43be-8589-2e0bc87114e3.png" alt="Kids T-shirt back">
+          </div>
+          <button class="slider-arrow right" type="button">›</button>
+        </div>
+
+        <div class="product-tag">T-shirt · Kids</div>
+        <div class="product-title">More ocean, less screen</div>
+        <p class="product-text">Light, fun T-shirt for kids who love the water.</p>
+
+        <div class="product-controls">
+          <label>
+            Quantity
+            <input type="number" class="input-qty" min="1" value="1">
+          </label>
+          <label>
+            Your donation / item (min €20)
+            <input type="number" class="input-price" min="20" step="1" value="20">
+          </label>
+        </div>
+
+        <div class="product-footer">
+          <div class="product-price">
+            Min. donation per item: <span>€20</span>
+          </div>
+          <button class="btn-buy" data-min="20">Buy</button>
+        </div>
+      </div>
+
+      <!-- HOODIE 1 (CLOTHING) -->
+      <div class="product-card" data-category="clothing">
+
+        <div class="product-image-slider">
+          <button class="slider-arrow left" type="button">‹</button>
+          <div class="slider-track">
+            <img src="355e382e-7114-403c-b548-fa5dafb09b8c.png" alt="Hoodie front" class="active">
+            <img src="fdc76928-7eaa-44ee-a337-196f974272eb.png" alt="Hoodie back">
+          </div>
+          <button class="slider-arrow right" type="button">›</button>
+        </div>
+
+        <div class="product-tag">Hoodie</div>
+        <div class="product-title">More ocean, less screen – Hoodie</div>
+        <p class="product-text">Cozy hoodie for early surf mornings and cool evenings.</p>
+
+        <div class="product-controls">
+          <label>
+            Quantity
+            <input type="number" class="input-qty" min="1" value="1">
+          </label>
+          <label>
+            Your donation / item (min €40)
+            <input type="number" class="input-price" min="40" step="1" value="40">
+          </label>
+        </div>
+
+        <div class="product-footer">
+          <div class="product-price">
+            Min. donation per item: <span>€40</span>
+          </div>
+          <button class="btn-buy" data-min="40">Buy</button>
+        </div>
+      </div>
+
+      <!-- HOODIE 2 (CLOTHING) -->
+      <div class="product-card" data-category="clothing">
+
+        <div class="product-image-slider">
+          <button class="slider-arrow left" type="button">‹</button>
+          <div class="slider-track">
+            <img src="Déconnecter pour se reconnecter.png" alt="Second hoodie front" class="active">
+            <img src="a08fb2eb-9dd6-453a-94a2-a028ad39d18e.png" alt="Second hoodie back">
+          </div>
+          <button class="slider-arrow right" type="button">›</button>
+        </div>
+
+        <div class="product-tag">Hoodie</div>
+        <div class="product-title">MyWave Classic Hoodie</div>
+        <p class="product-text">Another cozy hoodie style to keep you warm after a surf session.</p>
+
+        <div class="product-controls">
+          <label>
+            Quantity
+            <input type="number" class="input-qty" min="1" value="1">
+          </label>
+          <label>
+            Your donation / item (min €40)
+            <input type="number" class="input-price" min="40" step="1" value="40">
+          </label>
+        </div>
+
+        <div class="product-footer">
+          <div class="product-price">
+            Min. donation per item: <span>€40</span>
+          </div>
+          <button class="btn-buy" data-min="40">Buy</button>
+        </div>
+      </div>
+
+      <!-- CAP (HEADWEAR) -->
+      <div class="product-card" data-category="headwear">
+        <img src="d7c1709c-db35-47c2-a39b-bf0413bc771a.png" alt="Cap">
+        <div class="product-tag">Cap</div>
+        <div class="product-title">Offline & on a wave – Cap</div>
+        <p class="product-text">Embroidered cap for sunny surf and beach days.</p>
+
+        <div class="product-controls">
+          <label>
+            Quantity
+            <input type="number" class="input-qty" min="1" value="1">
+          </label>
+          <label>
+            Your donation / item (min €15)
+            <input type="number" class="input-price" min="15" step="1" value="15">
+          </label>
+        </div>
+
+        <div class="product-footer">
+          <div class="product-price">
+            Min. donation per item: <span>€15</span>
+          </div>
+          <button class="btn-buy" data-min="15">Buy</button>
+        </div>
+      </div>
+
+      <!-- STICKERS (ACCESSORIES) -->
+      <div class="product-card" data-category="accessories">
+        <img src="Sticker.jpeg" alt="Sticker pack">
+        <div class="product-tag">Stickers</div>
+        <div class="product-title">Digital Detox Sticker Pack</div>
+        <p class="product-text">Ocean-inspired vinyl sticker set with MyWave messages.</p>
+
+        <div class="product-controls">
+          <label>
+            Quantity
+            <input type="number" class="input-qty" min="1" value="1">
+          </label>
+          <label>
+            Your donation / pack (min €5)
+            <input type="number" class="input-price" min="5" step="1" value="5">
+          </label>
+        </div>
+
+        <div class="product-footer">
+          <div class="product-price">
+            Min. donation per item: <span>€5</span>
+          </div>
+          <button class="btn-buy" data-min="5">Buy</button>
+        </div>
+      </div>
+
+      <!-- BAG (ACCESSORIES) -->
+      <div class="product-card" data-category="accessories">
+        <img src="7e524020-6c51-43c2-85ed-7cd77661dca5.png" alt="Tote bag">
+        <div class="product-tag">Bag</div>
+        <div class="product-title">Ocean Day Tote Bag</div>
+        <p class="product-text">Strong everyday tote for beach days and city days.</p>
+
+        <div class="product-controls">
+          <label>
+            Quantity
+            <input type="number" class="input-qty" min="1" value="1">
+          </label>
+          <label>
+            Your donation / item (min €18)
+            <input type="number" class="input-price" min="18" step="1" value="18">
+          </label>
+        </div>
+
+        <div class="product-footer">
+          <div class="product-price">
+            Min. donation per item: <span>€18</span>
+          </div>
+          <button class="btn-buy" data-min="18">Buy</button>
+        </div>
+      </div>
+
+      <!-- PONCHO (CLOTHING) -->
+<div class="product-card" data-category="clothing">
+  <img src="2dac5fcb-8940-44c8-8bac-ab43750861ae.png" alt="MyWave surf poncho">
+
+  <div class="product-tag">Poncho</div>
+  <div class="product-title">MyWave Surf Poncho</div>
+  <p class="product-text">
+    Warm surf poncho for changing comfortably on the beach and staying cozy after a session.
+  </p>
+
+  <div class="product-controls">
+    <label>
+      Quantity
+      <input type="number" class="input-qty" min="1" value="1">
+    </label>
+    <label>
+      Your donation / item (min €60)
+      <input type="number" class="input-price" min="60" step="1" value="60">
+    </label>
+  </div>
+
+  <div class="product-footer">
+    <div class="product-price">
+      Min. donation per item: <span>€60</span>
+    </div>
+    <button class="btn-buy" data-min="60">Buy</button>
+  </div>
+</div>
+
+
+<!-- SOCKS (CLOTHING) -->
+<div class="product-card" data-category="clothing">
+  <img src="ChatGPT Image Nov 27, 2025, 01_48_48 PM.png" alt="MyWave Socks">
+
+  <div class="product-tag">Socks</div>
+  <div class="product-title">MyWave Surf Socks</div>
+  <p class="product-text">
+    Comfortable, breathable MyWave socks for everyday wear.
+  </p>
+
+  <div class="product-controls">
+    <label>
+      Quantity
+      <input type="number" class="input-qty" min="1" value="1">
+    </label>
+    <label>
+      Your donation / item (min €12)
+      <input type="number" class="input-price" min="12" step="1" value="12">
+    </label>
+  </div>
+
+  <div class="product-footer">
+    <div class="product-price">
+      Min. donation per item: <span>€12</span>
+    </div>
+    <button class="btn-buy" data-min="12">Buy</button>
+  </div>
+</div>
+
+        
+        
+        <!-- BEANIE (HEADWEAR) -->
+<div class="product-card" data-category="headwear">
+  <img src="ChatGPT Image Nov 27, 2025, 01_40_13 PM.png" alt="MyWave Beanie">
+
+  <div class="product-tag">Beanie</div>
+  <div class="product-title">MyWave Beanie</div>
+  <p class="product-text">
+    Warm beanie to keep your head cozy on cold beach days.
+  </p>
+
+  <div class="product-controls">
+    <label>
+      Quantity
+      <input type="number" class="input-qty" min="1" value="1">
+    </label>
+    <label>
+      Your donation / item (min €18)
+      <input type="number" class="input-price" min="18" step="1" value="18">
+    </label>
+  </div>
+
+  <div class="product-footer">
+    <div class="product-price">
+      Min. donation per item: <span>€18</span>
+    </div>
+    <button class="btn-buy" data-min="18">Buy</button>
+  </div>
+</div>
+
+        
+        <!-- WATER BOTTLE (ACCESSORIES) -->
+      <div class="product-card" data-category="accessories">
+        <img src="7eb467a7-5202-400f-be11-946c49fbd9b1.png" alt="Water bottle">
+        <div class="product-tag">Water bottle</div>
+        <div class="product-title">MyWave Reusable Water Bottle</div>
+        <p class="product-text">
+          Reusable bottle to keep you hydrated during surf sessions and ocean days – better for you and for the planet.
+        </p>
+
+        <div class="product-controls">
+          <label>
+            Quantity
+            <input type="number" class="input-qty" min="1" value="1">
+          </label>
+          <label>
+            Your donation / item (min €20)
+            <input type="number" class="input-price" min="20" step="1" value="20">
+          </label>
+        </div>
+
+        <div class="product-footer">
+          <div class="product-price">
+            Min. donation per item: <span>€20</span>
+          </div>
+          <button class="btn-buy" data-min="20">Buy</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ORDER FORM (appears after clicking Buy) -->
+    <section id="order-form" class="order-form hidden">
+      <h2>Order request</h2>
+      <p>
+        This is a purchase order. We’ll email you back with confirmation and payment details.
+        Your donation helps keep MyWave running for youth and families.
+      </p>
+
+      <form id="order-form-element">
+        <div class="order-grid">
+          <label>
+            Product
+            <input type="text" id="order-product" readonly>
+          </label>
+          <label>
+            Quantity
+            <input type="number" id="order-qty" readonly>
+          </label>
+        </div>
+
+        <div class="order-grid">
+          <label>
+            Donation per item (€)
+            <input type="number" id="order-price" readonly>
+          </label>
+          <label>
+            Total donation (€)
+            <input type="number" id="order-total" readonly>
+          </label>
+        </div>
+
+        <div class="order-grid">
+          <label>
+            Your name
+            <input type="text" id="order-name" required>
+          </label>
+          <label>
+            Your email
+            <input type="email" id="order-email" required>
+          </label>
+        </div>
+
+        <div class="order-grid">
+          <label>
+            Adult size (if needed)
+            <select id="order-size">
+              <option value="">Select size or leave empty</option>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+              <option value="XXL">XXL</option>
+              <option value="Not applicable">Not applicable</option>
+            </select>
+          </label>
+          <label>
+            Kids age(s) (if kids product)
+            <input type="text" id="order-kids-age" placeholder="e.g. 8 years, 11 years">
+          </label>
+        </div>
+
+        <div class="order-grid-full">
+          <label>
+            Delivery address
+            <textarea id="order-address" required placeholder="Street, number, city, country"></textarea>
+          </label>
+        </div>
+
+        <div class="order-grid-full">
+          <label>
+            Notes (colours, extra info, etc.)
+            <textarea id="order-message" placeholder="Anything else we should know…"></textarea>
+          </label>
+        </div>
+
+        <div class="order-summary">
+          When you submit, your email app will open with this information so you can send us
+          your order request. No online payment is processed on this site.
+        </div>
+
+        <button type="submit" class="btn-submit-order">Send order email</button>
+      </form>
+    </section>
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const orderSection = document.getElementById('order-form');
+      const orderProduct = document.getElementById('order-product');
+      const orderQty = document.getElementById('order-qty');
+      const orderPrice = document.getElementById('order-price');
+      const orderTotal = document.getElementById('order-total');
+
+      /* IMAGE SLIDER LOGIC */
+      const sliders = document.querySelectorAll('.product-image-slider');
+
+      sliders.forEach(slider => {
+        const track = slider.querySelector('.slider-track');
+        const images = track.querySelectorAll('img');
+        const prevBtn = slider.querySelector('.slider-arrow.left');
+        const nextBtn = slider.querySelector('.slider-arrow.right');
+        let index = 0;
+
+        function showImage(i) {
+          images.forEach((img, idx) => {
+            img.classList.toggle('active', idx === i);
+          });
+        }
+
+        prevBtn.addEventListener('click', () => {
+          index = (index - 1 + images.length) % images.length;
+          showImage(index);
+        });
+
+        nextBtn.addEventListener('click', () => {
+          index = (index + 1) % images.length;
+          showImage(index);
+        });
+
+        showImage(index);
+      });
+
+      // FILTER LOGIC
+      const filterButtons = document.querySelectorAll('.shop-subnav button');
+      const productCards = document.querySelectorAll('.product-card');
+
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const filter = button.dataset.filter;
+
+          filterButtons.forEach(b => b.classList.remove('active'));
+          button.classList.add('active');
+
+          productCards.forEach(card => {
+            const cat = card.dataset.category;
+            if (filter === 'all' || cat === filter) {
+              card.style.display = '';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+
+          document.querySelector('.shop-subnav').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+      });
+
+      // BUY BUTTON / ORDER POPULATION
+      document.querySelectorAll('.product-card .btn-buy').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const card = btn.closest('.product-card');
+          const title = card.querySelector('.product-title').textContent.trim();
+          const qtyInput = card.querySelector('.input-qty');
+          const priceInput = card.querySelector('.input-price');
+          const min = parseFloat(btn.dataset.min);
+
+          let qty = parseInt(qtyInput.value, 10);
+          let price = parseFloat(priceInput.value);
+
+          if (isNaN(qty) || qty < 1) qty = 1;
+          if (isNaN(price) || price < min) {
+            alert('Minimum donation for this item is €' + min.toFixed(0) + ' per piece.');
+            price = min;
+            priceInput.value = min;
+          }
+
+          qtyInput.value = qty;
+
+          orderProduct.value = title;
+          orderQty.value = qty;
+          orderPrice.value = price.toFixed(2);
+          orderTotal.value = (qty * price).toFixed(2);
+
+          orderSection.classList.remove('hidden');
+          orderSection.scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      // HANDLE ORDER FORM SUBMIT -> MAILTO
+      const form = document.getElementById('order-form-element');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById('order-name').value.trim();
+        const email = document.getElementById('order-email').value.trim();
+        const size = document.getElementById('order-size').value;
+        const kidsAge = document.getElementById('order-kids-age').value.trim();
+        const address = document.getElementById('order-address').value.trim();
+        const message = document.getElementById('order-message').value.trim();
+
+        if (!name || !email || !address) {
+          alert('Please fill in your name, email and delivery address.');
+          return;
+        }
+
+        const subject = encodeURIComponent('MyWave Shop Order Request');
+        const lines = [
+          'Name: ' + name,
+          'Email: ' + email,
+          '',
+          'Product: ' + orderProduct.value,
+          'Quantity: ' + orderQty.value,
+          'Donation per item: €' + orderPrice.value,
+          'Total donation: €' + orderTotal.value,
+          '',
+          'Adult size: ' + (size || '-'),
+          'Kids age(s): ' + (kidsAge || '-'),
+          '',
+          'Delivery address:',
+          address,
+          '',
+          'Notes (colours, extra info, etc.):',
+          message || '-'
+        ];
+
+        const body = encodeURIComponent(lines.join('\n'));
+
+        window.location.href = 'mailto:hello@mywave.org?subject=' + subject + '&body=' + body;
+      });
+    });
+  </script>
+
+</body>
+</html>
